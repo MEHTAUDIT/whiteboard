@@ -5,8 +5,11 @@ import  BoardContext  from "../../store/board-provider";
 function Board() {
 
   const canvasRef = useRef();
-  const {elements,boardMouseDownHandler} = useContext(BoardContext);
-  
+  // const {elements} = useContext(BoardContext);
+    const boardContext =  useContext(BoardContext) || null ;
+    const elements = boardContext ? boardContext.elements : [];
+    const boardMouseDownHandler = boardContext ? boardContext.boardMouseDownHandler : () => {};
+
   useEffect(() => {
 
     const canvas=canvasRef.current;
@@ -16,11 +19,14 @@ function Board() {
 
   useEffect(() => {
     const canvas=canvasRef.current;
-    let roughCanvas = rough.canvas(canvas);
     const context=canvas.getContext('2d');
     context.save();
+    const roughCanvas = rough.canvas(canvas);
+    // const gen = rough.generator();
+
     elements.forEach((element) => {
-        roughCanvas.draw(element);
+        // const roughEle = gen.line(element.x1, element.y1, element.x2, element.y2);
+        roughCanvas.draw(element.roughEle);
     });
 
     return () => {
@@ -32,11 +38,7 @@ function Board() {
   function handleMouseDown(event) {
     console.log(event.clientX,event.clientY);
 
-    const clientX = event.clientX;
-    const clientY = event.clientY;
-
-    const canvas=canvasRef.current;
-    boardMouseDownHandler({clientX,clientY,canvas});
+    boardMouseDownHandler(event);
   }
 
   return (

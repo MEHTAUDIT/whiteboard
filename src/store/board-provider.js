@@ -15,15 +15,17 @@ function boardReducer(state, action) {
                 selectedTool: action.payload.selectedTool,
             };
         case 'DRAW_DOWN':
+          const clientX = action.payload.clientX;
+          const clientY = action.payload.clientY;
+
           const newele={
             id:state.elements.length,
-            x1:action.payload.clientX,
-            y1:action.payload.clientY,
-            x2:action.payload.clientX,
-            y2:action.payload.clientY,
-            roughElement:gen.line(action.payload.clientX, action.payload.clientY, action.payload.clientX, action.payload.clientY),
-
-          }
+            x1:clientX,
+            y1:clientY,
+            x2:clientX,
+            y2:clientY,
+            roughEle:gen.line(clientX, clientY, clientX, clientY),
+          };
           return {
             ...state,
             elements: [...state.elements,newele],
@@ -55,10 +57,9 @@ function BoardProvider({children}) {
 
   function boardMouseDownHandler(event) {
     
-    const {clientX, clientY} = event;
+    const clientX = event.clientX;
+    const clientY = event.clientY;
 
-    const roughElement = gen.line(clientX, clientY, clientX, clientY);
-    
     dispatch({
       type: 'DRAW_DOWN',
       payload: {
