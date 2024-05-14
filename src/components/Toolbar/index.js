@@ -4,7 +4,6 @@ import cx from 'classnames';
 import {LuRectangleHorizontal} from 'react-icons/lu';
 import { useContext } from 'react';
 import BoardContext from '../../store/board-context';
-
 import {
   FaSlash,
   FaRegCircle,

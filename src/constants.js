@@ -17,3 +17,23 @@ export const BOARD_ACTIONS = {
     REDO: "REDO",
     SAVE: "SAVE",
 };
+
+export const TOOL_ACTION_TYPES = {
+    NONE: "NONE",
+    DRAWING: "DRAWING",
+
+};
+
+export const ARROW_LENGTH = 20;
+
+export  const COLORS ={
+    BLACK: 'black',
+    RED: 'red',
+    GREEN: 'green',
+    BLUE: 'blue',
+    YELLOW: 'yellow',
+};
+
+export const FILL_TOOL_TYPES = [TOOL_ITEMS.RECTANGLE, TOOL_ITEMS.CIRCLE];
+export const STROKE_TOOL_TYPES = [TOOL_ITEMS.LINE, TOOL_ITEMS.ARROW,TOOL_ITEMS.RECTANGLE, TOOL_ITEMS.CIRCLE];
+

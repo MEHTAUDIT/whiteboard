@@ -1,14 +1,13 @@
-import { useContext, useEffect,useRef } from "react";
+import { useContext, useEffect,useRef,useLayoutEffect } from "react";
 import rough from 'roughjs';
-import  BoardContext  from "../../store/board-provider";
+import BoardContext from "../../store/board-context";
+import toolboxContext from "../../store/toolbox-context";
 
 function Board() {
 
   const canvasRef = useRef();
-  // const {elements} = useContext(BoardContext);
-    const boardContext =  useContext(BoardContext) || null ;
-    const elements = boardContext ? boardContext.elements : [];
-    const boardMouseDownHandler = boardContext ? boardContext.boardMouseDownHandler : () => {};
+  const {elements,boardMouseDownHandler,boardMouseMove,toolactiontype,boardMouseUpHandler} = useContext(BoardContext);   
+  const {toolboxState} = useContext(toolboxContext);
 
   useEffect(() => {
 
@@ -17,7 +16,7 @@ function Board() {
     canvas.height=window.innerHeight;
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const canvas=canvasRef.current;
     const context=canvas.getContext('2d');
     context.save();
@@ -37,13 +36,24 @@ function Board() {
 
   function handleMouseDown(event) {
     console.log(event.clientX,event.clientY);
+    // console.log('boardMouseDownHandler',boardMouseDownHandler);
+    boardMouseDownHandler(event,toolboxState);
+  }
 
-    boardMouseDownHandler(event);
+  function handleMouseMove(event) {
+    console.log(event.clientX,event.clientY);
+    if(toolactiontype === 'DRAWING')
+      boardMouseMove(event);
+  }
+
+  function handleMouseUp(event) {
+    console.log('Mouse Up');
+    boardMouseUpHandler(event);
   }
 
   return (
 
-    <canvas ref={canvasRef} onMouseDown={handleMouseDown}/>
+    <canvas ref={canvasRef} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}/>
 
   );
 }
